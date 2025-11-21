@@ -1,0 +1,57 @@
+### 1. 基础功能测试：首页访问
+GET http://localhost:8080/
+
+### 2. 核心功能：用户1001报名活动1
+POST http://localhost:8080/api/registrations/register?activityId=1
+Content-Type: application/json
+userId: 1001
+
+### 3. 重复报名检查：应该返回错误
+POST http://localhost:8080/api/registrations/register?activityId=1
+Content-Type: application/json
+userId: 1001
+
+### 4. 核心功能：用户1002报名活动1
+POST http://localhost:8080/api/registrations/register?activityId=1
+Content-Type: application/json
+userId: 1002
+
+### 5. 查询功能：查看用户1001的报名记录
+GET http://localhost:8080/api/registrations/my
+userId: 1001
+
+### 6. 查询功能：查看活动1的所有报名记录
+GET http://localhost:8080/api/registrations/activity/1
+
+### 7. 取消功能：用户1001取消报名
+POST http://localhost:8080/api/registrations/cancel?activityId=1
+Content-Type: application/json
+userId: 1001
+
+### 8. 验证取消结果：再次查询用户1001的报名记录
+GET http://localhost:8080/api/registrations/my
+userId: 1001
+
+### 9. 通知功能：重复报名检查
+POST http://localhost:8080/api/registrations/check-duplicate
+Content-Type: application/json
+
+{
+  "userId": "1001",
+  "activityId": "1"
+}
+
+### 10. 通知功能：活动下架通知
+POST http://localhost:8080/api/registrations/activity/offline
+Content-Type: application/json
+
+{
+  "activityId": "1"
+}
+
+### 11. 获取用户通知列表
+GET http://localhost:8080/api/notifications/my
+userId: 1001
+
+### 12. 手动触发活动取消通知
+POST http://localhost:8080/api/notifications/activity/1/cancel?reason=天气原因
